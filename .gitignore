@@ -1,4 +1,15 @@
-# Node.js dependencies and build artifacts
+# N# Dependencies
+node_modules/
+
+# Environment Variables (SENSITIVE)
+.env
+.env.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+
+# OS Files
 .DS_Store
 
 # Coverage folder

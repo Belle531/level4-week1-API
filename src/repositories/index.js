@@ -1,4 +1,3 @@
-
 /**
  * Creates repositories (data layer).
  * Day 1: in-memory only. Day 4: replaced with SQLite-backed repositories.
@@ -9,8 +8,12 @@ export async function createRepos() {
   // Lazy import keeps this minimal for Day 1
   // (you can also use a direct import if you prefer).
   const { createPostsRepo } = await import('./posts.repo.js');
+  const { createCommentsRepo } = await import('./comments.repo.js');
+  const { createUsersRepo } = await import('./users.repo.js');
 
   return {
     posts: createPostsRepo(),
+    comments: createCommentsRepo(),
+    users: createUsersRepo(),
   };
 }

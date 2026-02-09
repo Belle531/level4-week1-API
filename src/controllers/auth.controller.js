@@ -6,7 +6,7 @@ import { signToken } from '#utils/jwt';
 /**
  * POST /auth/register
  */
-export function registerUser(req, res) {
+export function register(req, res) { // Changed name to 'register' to match routes
   const { users } = res.locals.repos;
 
   ensureBodyFields(req.body, ['email', 'name', 'password']);
@@ -27,7 +27,7 @@ export function registerUser(req, res) {
 
   const token = signToken({ userId: user.id, secret: req.app.locals.config.JWT_SECRET });
 
-  return res.created({
+  return res.status(201).json({
     token,
     user: { id: user.id, email: user.email, name: user.name },
   });
@@ -36,7 +36,7 @@ export function registerUser(req, res) {
 /**
  * POST /auth/login
  */
-export function loginUser(req, res) {
+export function login(req, res) { // Changed name to 'login' to match routes
   const { users } = res.locals.repos;
 
   ensureBodyFields(req.body, ['email', 'password']);
@@ -55,7 +55,7 @@ export function loginUser(req, res) {
 
   const token = signToken({ userId: user.id, secret: req.app.locals.config.JWT_SECRET });
 
-  return res.ok({
+  return res.status(200).json({
     token,
     user: { id: user.id, email: user.email, name: user.name },
   });

@@ -10,7 +10,7 @@ dotenv.config();
  * @returns {{ PORT: number }}
  */
 export function ensureEnv() {
-  const PORT = Number(process.env.PORT ?? 3000);
+  const PORT = Number(process.env.PORT ?? 3005);
 
   // Load the JWT variable
   const JWT_SECRET = process.env.JWT_SECRET ?? '';

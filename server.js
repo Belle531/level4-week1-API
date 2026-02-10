@@ -1,26 +1,33 @@
+/**
+ * server.js
+ * The entry point for Cassandra's Digital Solutions API.
+ * This file assembles the environment, repositories, and the application.
+ */
+
 import { ensureEnv } from '#utils/env';
-import { createApp } from '#app';
-import { createRepos } from '#repositories/index';
+import { createApp } from './createApp.js';
+import { createRepos } from './src/repositories/index.js';
 
-async function startServer() {
-  try {
-    // 1. Initialize configuration and repositories
-    const env = ensureEnv();
-    const repos = await createRepos();
+// 1. Initialize and Validate Environment Variables
+// This will throw an error immediately if PORT or JWT_SECRET are missing/invalid
+const { PORT, JWT_SECRET } = ensureEnv(); 
 
-    // 2. Create the Express application instance
-    const app = createApp({ repos });
+// 2. Initialize Repositories (The Data Layer)
+// Since this is Day 3, this creates our In-Memory storage objects
+const repos = await createRepos();
 
-    // 3. Start listening
-    app.listen(env.PORT, () => {
-      console.log(`ContentHub API is live at http://localhost:${env.PORT}`);
-    });
+// 3. Assemble the Application
+// We pass the repositories and the config (with our secret) into the factory function
+const app = createApp({
+  repos,
+  config: {
+    JWT_SECRET, 
+  },
+});
 
-  } catch (error) {
-    console.error('Failed to start server:', error);
-    process.exit(1); // Exit with failure code if something breaks
-  }
-}
-
-// Execute the startup
-startServer();
+// 4. Start the Engine
+app.listen(PORT, () => {
+  console.log('---');
+  console.log(`🚀 ContentHub API is live at http://localhost:${PORT}`);
+  console.log('---');
+});

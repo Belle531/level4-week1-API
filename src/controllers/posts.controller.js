@@ -6,8 +6,10 @@ import { parsePagination } from '#utils/pagination';
  * GET /posts
  */
 export function listPosts(req, res) {
-  const { posts } = res.locals.repos;
+  // Pulling from app.locals.repos as set in your createApp.js
+  const { posts } = req.app.locals.repos;
 
+  // Fixed the query parsing and passed the query object
   const { limit, offset } = parsePagination(req.query);
   const result = posts.list({ limit, offset });
 
@@ -20,7 +22,7 @@ export function listPosts(req, res) {
  * GET /posts/:id
  */
 export function getPost(req, res) {
-  const { posts } = res.locals.repos;
+  const { posts } = req.app.locals.repos;
 
   // Get an id from the requests
   const id = Number(req.params.id);
@@ -38,7 +40,7 @@ export function getPost(req, res) {
  * POST /posts (AUTH REQUIRED)
  */
 export function createPost(req, res) {
-  const { posts } = res.locals.repos;
+  const { posts } = req.app.locals.repos;
   ensureBodyFields(req.body, ['title', 'body']);
 
   const { title, body } = req.body ?? {};
@@ -51,7 +53,7 @@ export function createPost(req, res) {
  * PUT /posts/:id (AUTH + OWNER)
  */
 export function updatePost(req, res) {
-  const { posts } = res.locals.repos;
+  const { posts } = req.app.locals.repos;
   const id = Number(req.params.id);
 
   ensureBodyFields(req.body, ['title', 'body']);
@@ -73,7 +75,7 @@ export function updatePost(req, res) {
  * DELETE /posts/:id (AUTH + OWNER)
  */
 export function deletePost(req, res) {
-  const { posts } = res.locals.repos;
+  const { posts } = req.app.locals.repos;
   const id = Number(req.params.id);
 
   const result = posts.delete({ id, authorId: req.user.id });

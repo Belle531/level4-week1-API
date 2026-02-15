@@ -16,10 +16,18 @@ const { PORT, JWT_SECRET } = ensureEnv();
 // Since this is Day 3, this creates our In-Memory storage objects
 const repos = await createRepos();
 
-// 3. Assemble the Application
+// --- DAY 2 START ---
+// We place our data source here so it's ready before the app starts.
+const items = [
+  { id: 1, name: 'Item One' },
+  { id: 2, name: 'Item Two' }
+];
+
+
 // We pass the repositories and the config (with our secret) into the factory function
 const app = createApp({
   repos,
+  items, // This makes our in-memory items available to the app
   config: {
     JWT_SECRET, 
   },

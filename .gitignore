@@ -5,8 +5,10 @@ node_modules/
 .env
 .env.local
 
+
 # Logs
 npm-debug.log*
+.eslintcache
 yarn-debug.log*
 
 # OS Files

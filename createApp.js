@@ -49,14 +49,23 @@ export function createApp({ repos, items, config = {} }) {
   app.use('/comments', commentsRouter);
 
   // GET Items
-  app.get('/items', (req, res) => {
-    res.json(items); 
+  // Requirement: Use 200 for reads
+  app.get('/items', async (req, res) => {
+    const allItems = await items.findAll(); 
+    res.status(200).json(allItems); 
   });
 
   // POST Items
-  app.post('/items', (req, res) => {
-    const newItem = req.body;
-    items.push(newItem);
+  // Requirement: Use 201 for create, and 400 when appropriate
+  app.post('/items', async (req, res) => {
+    const { id, name } = req.body;
+
+    // 400 Validation Check
+    if (!id || !name) {
+      return res.status(400).json({ error: "ID and Name are required" });
+    }
+
+    const newItem = await items.create({ id, name });
     res.status(201).json(newItem);
   });
 

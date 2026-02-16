@@ -8,7 +8,14 @@ import { ensureEnv } from '#utils/env';
 import { createApp } from './createApp.js';
 import { createRepos } from './src/repositories/index.js';
 import { createItemRepository } from './src/repositories/items.repo.js'; // Added import for the repository function
+import js from '@eslint/js';
 
+export default [
+    js.configs.recommended,
+    {
+        // your custom rules
+    }
+];
 // 1. Initialize and Validate Environment Variables
 // This will throw an error immediately if PORT or JWT_SECRET are missing/invalid
 const { PORT, JWT_SECRET } = ensureEnv(); 
